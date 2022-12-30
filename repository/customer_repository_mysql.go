@@ -41,3 +41,19 @@ func (repository *customerRepositoryMysql) FindById(ctx context.Context, id uint
 		return customer, errors.New("Id " + strconv.Itoa(int(id)) + " Not Found")
 	}
 }
+
+func (repository *customerRepositoryMysql) FindAll(ctx context.Context) ([]entity.Customer, error) {
+	script := "SELECT id, name , email FROM customers"
+	rows, err := repository.DB.QueryContext(ctx, script)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var customers []entity.Customer
+	for rows.Next() {
+		customer := entity.Customer{}
+		rows.Scan(&customer.Id, &customer.Name, &customer.Email)
+		customers = append(customers, customer)
+	}
+	return customers, nil
+}

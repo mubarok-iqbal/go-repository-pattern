@@ -48,3 +48,16 @@ func TestCustomerFindById(t *testing.T) {
 
 	fmt.Println(customer)
 }
+
+func TestCustomerFindAll(t *testing.T) {
+	customerRepository := repository.CustomerRepository(GetConnection())
+
+	customers, err := customerRepository.FindAll(context.Background())
+	if err != nil {
+		panic(err)
+	}
+
+	for _, customer := range customers {
+		fmt.Println(customer)
+	}
+}
