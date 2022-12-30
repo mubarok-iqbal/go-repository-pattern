@@ -37,3 +37,14 @@ func TestCustomerInsert(t *testing.T) {
 
 	fmt.Println(result)
 }
+
+func TestCustomerFindById(t *testing.T) {
+	customerRepository := repository.CustomerRepository(GetConnection())
+
+	customer, err := customerRepository.FindById(context.Background(), 2)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(customer)
+}
